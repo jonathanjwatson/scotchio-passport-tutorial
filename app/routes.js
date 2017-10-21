@@ -23,21 +23,26 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-    // app.post('/signup', (req, res) => {
-    //     console.log("Hit the signup route")
-    //     console.log(req.body);
-    //     // console.log(passport);
-    //     // passport.authenticate('local-signup')
-    //     // console.log("Got past passport")
-        
-    // })
-
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
             user : req.user
         });
     });
 
+    // app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    
+    // Setting the facebook oauth routes
+    app.route('/auth/facebook').get(passport.authenticate('facebook', {
+        scope: ['email']
+    }));
+    // app.route('/auth/facebook/callback').get(users.oauthCallback('facebook'));
+    
+        // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
 
     app.get('/logout', function(req, res) {
         req.logout();
