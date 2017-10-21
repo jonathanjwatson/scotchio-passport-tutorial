@@ -14,7 +14,7 @@ const connection = mongoose.connection;
 
 const configDB = require('./config/database.js');
 
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 connection.on('connected', () => {
     console.log('Mongoose Connected Successfully');
@@ -24,11 +24,12 @@ connection.on('error', (err) => {
     console.log(`Mongoose default connection error: ${err}`)
 })
 
-// require('./config/passport')(passport);
+require('./config/passport')(passport);
 
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser());
+// app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 app.use(session({
