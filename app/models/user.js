@@ -38,7 +38,7 @@ userSchema.methods.generateHash = function(password) {
 };
 
 userSchema.plugin(encrypt, {
-    paths: ['local.email', 'local.password'],
+    paths: ['local.password'],
     password: function(date) {
         //Return the correct password for the given date. 
         //As long as you don't need to migrate to a new password, just return the current one. 
