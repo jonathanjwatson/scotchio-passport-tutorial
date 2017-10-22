@@ -14,7 +14,7 @@ const connection = mongoose.connection;
 
 const configDB = require('./config/database.js');
 
-// mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI);
 connection.on('connected', () => {
     console.log('Mongoose Connected Successfully');

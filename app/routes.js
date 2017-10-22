@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
     
     // Setting the facebook oauth routes
     app.route('/auth/facebook').get(passport.authenticate('facebook', {
-        scope: ['email']
+        scope: ['email', 'public_profile']
     }));
     // app.route('/auth/facebook/callback').get(users.oauthCallback('facebook'));
     
