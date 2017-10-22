@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var encrypt = require('mongoose-encrypt');
+
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -34,6 +36,15 @@ var userSchema = mongoose.Schema({
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(12), null);
 };
+
+userSchema.plugin(encrypt, {
+    paths: ['local.email', 'local.password'],
+    password: function(date) {
+        //Return the correct password for the given date. 
+        //As long as you don't need to migrate to a new password, just return the current one. 
+        return process.env.AES_ENCRYPTION_PASSWORD;
+    }
+});
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
